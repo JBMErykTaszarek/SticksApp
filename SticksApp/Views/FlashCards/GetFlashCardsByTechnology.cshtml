@@ -1,0 +1,42 @@
+﻿@model SticksApp.Models.FlashCard
+
+@{
+    ViewBag.Title = "GetFlashCardsByTechnology";
+}
+
+<h2>GetFlashCardsByTechnology</h2>
+
+<div class="maincontainer">
+
+    <div id="thecard" class="thecard">
+
+
+        <div id="thefront" class="thefront"><h1>@Model.Question</h1></div>
+
+        <div class="theback">
+            <h1>@Model.Answer</h1>
+        </div>
+
+    </div>
+    <button type="button" onclick="GetAnotherFlashCardAndUpdateCurrent(@Model.Id, '@Model.Language')">Take Another></button>
+</div>
+
+<script>
+    function GetAnotherFlashCardAndUpdateCurrent(currentId, language) {
+        $.ajax({
+            type: "GET",
+            url: '/FlashCards/LoadGrid',
+            data: {
+                currentId: currentId,
+                language: language,
+            },
+            success: function (resault) {
+                alert(resault);
+                $("#thecard").html(resault);
+            },
+            error: function (status) {
+                alert(status);
+            }
+        })
+    };
+</script>
