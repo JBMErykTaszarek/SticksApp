@@ -4,12 +4,29 @@
 
 <div class="jumbotron">
     <h1>Learn Programing by Fishes!</h1>
-    <p class="lead">Learn programing by using fishes by Eryk T.</p>
+    <p class="lead">Learn programing by using flashCards by Eryk T.</p>
+    <iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Flocalhost%3A44306%2F&layout=button&size=small&width=67&height=20&appId" width="100" height="20" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <input type="image" onclick="location.href ='@Url.Action("Create", "FlashCards")'; return false;" src="~/Icons/cs.png" />
-
+        <input id="mainIcon" type="image" onclick="location.href ='@Url.Action("GetFlashCardsByTechnology", "FlashCards",new {language = "Csharp" })'; return false;" src="~/Icons/cs.png" />
+        <div id="barID">
+            <p>C#</p>
+            <progress value="@ViewData["CsharpProgrsss"]" max="@ViewData["CsharpCount"]"></progress>
+        </div>
+        <input id="mainIcon" type="image" onclick="location.href ='@Url.Action("GetFlashCardsByTechnology", "FlashCards",new {language = "JS" })'; return false;" src="~/Icons/js.png" />
+        <div id="barID">
+            <p>JavaScript</p>
+            <progress value="@ViewData["JSProgrsss"]" max="@ViewData["JSCount"]">
+        </div>
+        <input id="mainIcon" type="image" onclick="location.href ='@Url.Action("GetFlashCardsByTechnology", "FlashCards",new {language = "Python" })'; return false;" src="~/Icons/py2.png" />
+        <div id="barID">
+            <p>Python</p>
+            <progress value="@ViewData["PythonProgress"]" max="@ViewData["PythonCount"]">
+        </div>
+        <button id="addButton" type="button" onclick="location.href='@Url.Action("Create", "FlashCards")'" /> Add your own FlashCard!</button>
     </div>
+
+
 </div>

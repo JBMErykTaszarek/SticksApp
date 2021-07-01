@@ -17,6 +17,7 @@ namespace SticksApp.Controllers
         // GET: FlashCards
         public ActionResult Index()
         {
+
             return View(db.FlashCards.ToList());
         }
 
@@ -31,22 +32,22 @@ namespace SticksApp.Controllers
             return View(flashCardsList.ElementAt(rnd.Next(0,maxRandom)));
         }
 
-        public ActionResult LoadGrid(int currentId, string language)
+        public ActionResult LoadGrid(int currentId, string language,int level)
         {
-            UpdateAndGetAnother(currentId);
-            var flashCardsList = db.FlashCards.ToList().Where(x => x.Language == language);
+            UpdateAndGetAnother(currentId,level);
+            var flashCardsList = db.FlashCards.ToList().Where(x => x.Language == language).Where(x => x.Level == 1);
             var maxRandom = flashCardsList.Count();
             Random rnd = new Random();
             var model = flashCardsList.ElementAt(rnd.Next(0, maxRandom));
             return PartialView("_CardValues", model);
         }
 
-        public void UpdateAndGetAnother(int currentId)
+        public void UpdateAndGetAnother(int currentId, int level)
         {
             var result = db.FlashCards.SingleOrDefault(b => b.Id == currentId);
             if (result != null)
             {
-                result.Level= 2;
+                result.Level= level;
                 db.SaveChanges();
             }
         }
@@ -76,13 +77,14 @@ namespace SticksApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Question,Answer,Level,Language")] FlashCard flashCard)
+        public ActionResult Create([Bind(Include = "Id,Question,Answer,Language")] FlashCard flashCard)
         {
             if (ModelState.IsValid)
             {
+                flashCard.Level = 1;
                 db.FlashCards.Add(flashCard);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Home");
             }
 
             return View(flashCard);

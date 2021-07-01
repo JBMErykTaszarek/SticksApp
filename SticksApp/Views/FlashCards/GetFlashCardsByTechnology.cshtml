@@ -1,10 +1,10 @@
 ﻿@model SticksApp.Models.FlashCard
 
 @{
-    ViewBag.Title = "GetFlashCardsByTechnology";
+    ViewBag.Title = "Train Yourself!";
 }
 
-<h2>GetFlashCardsByTechnology</h2>
+<h2>Train Yourself!</h2>
 
 <div class="maincontainer">
 
@@ -18,20 +18,26 @@
         </div>
 
     </div>
-    <button type="button" onclick="GetAnotherFlashCardAndUpdateCurrent(@Model.Id, '@Model.Language')">Take Another></button>
+    <div id="yesnobuttons">
+        <button id="yesButton" type="button" onclick="GetAnotherFlashCardAndUpdateCurrent(@Model.Id, '@Model.Language',level=9)">I got it!</button>
+        <button id="noButton" type="button" onclick="GetAnotherFlashCardAndUpdateCurrent(@Model.Id, '@Model.Language',level=1)">Whaat?</button>
+
+    </div>
+    <button id="addButton" type="button" onclick="location.href='@Url.Action("Index", "Home")'" /> Ok, enough for totay...</button>
 </div>
 
 <script>
-    function GetAnotherFlashCardAndUpdateCurrent(currentId, language) {
+    function GetAnotherFlashCardAndUpdateCurrent(currentId, language, level) {
         $.ajax({
             type: "GET",
             url: '/FlashCards/LoadGrid',
             data: {
                 currentId: currentId,
                 language: language,
+                level: level
             },
             success: function (resault) {
-                alert(resault);
+                
                 $("#thecard").html(resault);
             },
             error: function (status) {
